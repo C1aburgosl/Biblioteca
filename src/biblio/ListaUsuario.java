@@ -1,0 +1,144 @@
+package biblio;
+import java.io.*;
+public class ListaUsuario  implements Serializable{
+	private NodoUsuario inicio;
+	private int tamaño;
+	
+	public ListaUsuario(){
+		inicio = null;
+		tamaño = 0;
+	}
+	
+	public NodoUsuario getInicio(){
+		return inicio;
+	}
+	
+	public int getTamaño(){
+		return tamaño;
+	}
+	
+	public void setInicio(NodoUsuario inicio){
+		this.inicio = inicio;
+	}
+	
+	public void setTamaño(int tamaño){
+		this.tamaño = tamaño;
+	}
+	
+	public String toString(){
+		String salida = "La lista contiene: ";
+		NodoUsuario auxiliar = inicio;
+		
+		while(auxiliar!=null){
+			salida = salida + auxiliar.toString() + " ";
+			auxiliar = auxiliar.getSiguiente();
+		}
+		salida = salida + "\nLa lista tiene " + tamaño + " elementos";
+		return salida;
+	}
+	
+	public String mostrarNombres(){
+		String salida = "";
+		NodoUsuario auxiliar = inicio;
+		int contador = 0;
+		
+		while(auxiliar!=null){
+			salida = salida + contador + "- " + auxiliar.getUser().getNombre() + "\n";
+			auxiliar = auxiliar.getSiguiente();
+			contador++;
+		}
+		return salida;
+	}
+	
+	public void insertarInicio(NodoUsuario nodo){
+		nodo.setSiguiente(inicio);
+		inicio = nodo;
+		tamaño++;
+	}
+	
+	public void insertarFinal(NodoUsuario nodo){
+		if(inicio == null) insertarInicio(nodo);
+		else{
+			NodoUsuario aux = inicio;
+			while(aux.getSiguiente()!=null){
+				aux = aux.getSiguiente();
+			
+			}
+			aux.setSiguiente(nodo);
+			tamaño++;
+		}
+	}
+	
+	
+	public boolean insertarPosicion(int posicion,NodoUsuario nodo){
+		if(posicion<0 || posicion>tamaño) return false;
+		else{
+			NodoUsuario aux = inicio;
+			if(posicion==0){
+				insertarInicio(nodo);
+				return true;
+			}else{
+				for(int i=0;i<posicion-1;i++){
+					aux = aux.getSiguiente();
+			
+				}
+				nodo.setSiguiente(aux.getSiguiente());
+				aux.setSiguiente(nodo);
+				tamaño++;
+				return true;
+			}
+			
+		}
+	}
+	
+	public boolean eliminarPrimero(){
+		if(inicio==null) return false;
+		else{
+			NodoUsuario aux = inicio;
+			inicio = aux.getSiguiente();
+			tamaño--;
+			return true;
+		}
+	}
+	
+	public boolean eliminarUltimo(){
+		int i = 0;
+		if(inicio==null) return false;
+		else{
+			NodoUsuario aux = inicio;
+			while(i<tamaño-2){
+				aux=aux.getSiguiente();
+				i++;
+			}
+			aux.setSiguiente(null);
+			tamaño--;
+			return true;
+		}
+	}
+	
+	public boolean eliminarPosicion(int posicion){
+		if(posicion<0 || posicion>tamaño) return false;
+		else{
+			NodoUsuario aux = inicio;
+			NodoUsuario aux2 = inicio;
+			if(posicion==0){
+				eliminarPrimero();
+				return true;
+			}else{
+				for(int i=0;i<posicion-1;i++){
+					aux = aux.getSiguiente();
+			
+				}
+				for(int i=0;i<posicion+1;i++){
+					aux2 = aux2.getSiguiente();
+			
+				}
+				aux.setSiguiente(aux2);
+				tamaño--;
+				return true;
+			}
+			
+		}
+	}
+
+}
